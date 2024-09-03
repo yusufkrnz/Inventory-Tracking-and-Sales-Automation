@@ -1,0 +1,113 @@
+@startuml
+
+package "business" {
+    class BasketController {
+        - basketDao: BasketDao
+        + save(Basket: Basket): boolean
+    }
+    class CustomerController {
+        - customerDao: CustomerDao
+        + delete(id: int): boolean
+        + filter(filterType: String, type: TYPE_): ArrayList<Customer>
+        + findAll(): ArrayList<Customer>
+        + findAllCombined(): ArrayList<Customer>
+        + getById(id: int): Customer
+        + save(customer: Customer): boolean
+        + update(customer: Customer): boolean
+    }
+    class ProductController {
+        - productDao: ProductDao
+        + delete(id: int): boolean
+        + filter(type: String, category: String, item: Item): ArrayList<Product>
+        + findAll(): ArrayList<Product>
+        + getById(id: int): Product
+        + save(product: Product): boolean
+        + update(product: Product): boolean
+    }
+    class UsersController {
+        - userDao: UserDao
+        + findByLogin(username: String, password: String): User
+    }
+}
+
+package "core" {
+    class Database{}
+    class Helper{}
+    class Item{}
+}
+
+package "dao" {
+    class BasketDao {
+        + save(Basket: Basket): boolean
+        + delete(id: int): boolean
+        + update(Basket: Basket): boolean
+        + findById(id: int): Basket
+    }
+    class CustomerDao {
+        + save(Customer: Customer): boolean
+        + delete(id: int): boolean
+        + update(Customer: Customer): boolean
+        + findById(id: int): Customer
+    }
+    class ProductDao {
+        + save(Product: Product): boolean
+        + delete(id: int): boolean
+        + update(Product: Product): boolean
+        + findById(id: int): Product
+    }
+    class UserDao {
+        + findByLogin(username: String, password: String): User
+        + save(User: User): boolean
+        + delete(id: int): boolean
+        + update(User: User): boolean
+    }
+}
+
+package "entity" {
+    class Basket
+    class Customer
+    class Product
+    class User
+}
+
+package "view" {
+    class CustomerUI {
+        + displayCustomers(customers: ArrayList<Customer>): void
+    }
+    class DashboardUI {
+        + displayDashboard(): void
+    }
+    class LoginUI {
+        + displayLoginScreen(): void
+    }
+    class ProductUI {
+        + displayProducts(products: ArrayList<Product>): void
+    }
+}
+
+class App {
+    + main(String[]): void
+}
+
+' Relationships between classes
+BasketController --> BasketDao
+CustomerController --> CustomerDao
+ProductController --> ProductDao
+UsersController --> UserDao
+
+BasketDao --> Database
+CustomerDao --> Database
+ProductDao --> Database
+UserDao --> Database
+
+BasketDao --> Basket
+CustomerDao --> Customer
+ProductDao --> Product
+UserDao --> User
+
+CustomerUI --> CustomerController
+DashboardUI --> ProductController
+LoginUI --> UsersController
+ProductUI --> ProductController
+
+@enduml

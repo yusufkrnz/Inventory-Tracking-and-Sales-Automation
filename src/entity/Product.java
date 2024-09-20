@@ -7,10 +7,35 @@ public class Product {
     private String code;
     private int price;
     private int stock;
+    private Type Category;
     private String uniqcode;
+    private String supplier;
 
     public Product() {
 
+    }
+
+    public String getSupplier() {
+        return this.supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public enum Type {
+        SmartAssistants,
+        PersonalCare,
+        SmartDevices,
+        KitchenHelpers
+    }
+
+    public Type getCategory() {
+        return Category;
+    }
+
+    public void setCategory(Type category) {
+        Category = category;
     }
 
     public String getUniqcode() {

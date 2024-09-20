@@ -60,10 +60,21 @@ public class BasketDao {
     public Basket match(ResultSet rs)throws SQLException{
 
         Basket basket=new Basket();
+
+        // ResultSet'ten "id" sütunundaki veriyi alarak
+        // Basket nesnesine atanıyor
         basket.setId(rs.getInt("id"));
+
         basket.setProductId(rs.getInt("product_id"));
+
+        // ProductDao sınıfını kullanarak,
+        // product_id ile ilgili ürünü veritabanından alıp
+        // Basket'e atanıyor
+
         basket.setProduct(this.productDao.getById(rs.getInt("product_id")));
+
         return basket;
+
     }
     public boolean clear() {
         String query = "DELETE FROM basket ";

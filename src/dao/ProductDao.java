@@ -1,7 +1,6 @@
 package dao;
 
 import core.Database;
-import entity.Customer;
 import entity.Product;
 
 import java.sql.Connection;
@@ -19,50 +18,57 @@ public class ProductDao {
     }
 
 
-    public boolean save(Product product) throws SQLException {
-        String query = "INSERT INTO product ( name, code, price, stock ,uniqcode ) VALUES (?,?,?,?,?)";
-
-        try {
-            PreparedStatement pr = this.connection.prepareStatement(query);
+    public boolean save(Product product) {
+        String query = "INSERT INTO product (name, code, price, category, supplier, stock, uniqcode) VALUES (?,?,?,?,?,?,?)";
+        try (PreparedStatement pr = this.connection.prepareStatement(query)) {
             pr.setString(1, product.getName());
             pr.setString(2, product.getCode());
             pr.setInt(3, product.getPrice());
-            pr.setInt(4, product.getStock());
-            pr.setString(5,product.getUniqcode());
-            return pr.executeUpdate() != -1;
+            pr.setString(4, product.getCategory().toString());
+            pr.setString(5, product.getSupplier());
+            pr.setInt(6, product.getStock());
+            pr.setString(7, product.getUniqcode());
 
+            int result = pr.executeUpdate();
+            if (result != -1) {
+                return true;
+            }
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            exception.printStackTrace(); // Loglama yapabilir veya özel bir durum fırlatabilirsiniz
         }
-        return false;
+        return false; // Başarısız olan durumlar için false döner
     }
+
 
     public boolean update(Product product) {
         String query = "UPDATE product SET " +
                 "name = ?, " +
                 "code = ?, " +
                 "price = ?, " +
-                "stock = ?,  " +
-                "uniqcode= ? " +
-                "WHERE id = ?";
+                "category = ?, " +
+                "supplier = ?, " +
+                "stock = ?, " +
+                "uniqcode = ? " +  // Virgül kaldırıldı
+                "WHERE id = ?";   // WHERE koşulu burada
         try {
             PreparedStatement pr = this.connection.prepareStatement(query);
             pr.setString(1, product.getName());
             pr.setString(2, product.getCode());
             pr.setInt(3, product.getPrice());
-            pr.setInt(4, product.getStock());
-            pr.setString(5,product.getUniqcode());
-            pr.setInt(6, product.getId());
-
+            pr.setString(4, product.getCategory().toString());
+            pr.setString(5, product.getSupplier());
+            pr.setInt(6, product.getStock());
+            pr.setString(7, product.getUniqcode());
+            pr.setInt(8, product.getId());
 
             return pr.executeUpdate() > 0;  // Güncellenen satır sayısını kontrol eder
-
 
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
         return false;  // Hata durumunda false döner
     }
+
 
     public Product getById(int id) {
         Product product = null;
@@ -128,11 +134,22 @@ public class ProductDao {
     public Product match(ResultSet rs) throws SQLException {
         Product product = new Product();
 
-        // customer_id tablosunda sütun adlarının `customer` tablosundakilerden farklı olabileceğini göz önünde bulundurun
-        product.setId(rs.getInt("id")); // ID sütunu her iki tabloda da mevcut olmalı
+        product.setId(rs.getInt("id"));
         product.setName(rs.getString("name"));
         product.setCode(rs.getString("code"));
         product.setPrice(rs.getInt("price"));
+
+        // Enum dönüşümünü güvenli bir şekilde yapma
+        String categoryString = rs.getString("category");
+        try {
+            product.setCategory(Product.Type.valueOf(categoryString));
+        } catch (IllegalArgumentException e) {
+            // Enum'da tanımlı olmayan bir değerle karşılaşıldı
+            System.out.println("Unknown category type: " + categoryString);
+            product.setCategory(Product.Type.SmartAssistants); // Varsayılan bir değer kullanabilirsiniz
+        }
+
+        product.setSupplier(rs.getString("supplier")); // `supplier` enum değilse
         product.setStock(rs.getInt("stock"));
         product.setUniqcode(rs.getString("uniqcode"));
 
@@ -140,9 +157,7 @@ public class ProductDao {
     }
 
 
-
     /** ------<---Stok UYARI-->---Sembol işaretleri işlemleri----------*/
-
 
 
 }

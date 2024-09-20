@@ -6,8 +6,9 @@ import dao.ProductDao;
 import entity.Customer;
 import entity.Product;
 
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductController {
 
@@ -22,12 +23,28 @@ public class ProductController {
     }
 
     public boolean update(Product product) {
-        if (this.getById(product.getId()) == null) {
-            Helper.showMsg(product.getId() + "ID kayıtlı ürün bulunamadı!");
+        // Öncelikle product null mı kontrol ediyoruz
+        if (product == null) {
+            Helper.showMsg("Güncelleme işlemi için geçersiz ürün!");
             return false;
         }
+
+        // Ürün veritabanında mevcut mu kontrol ediyoruz
+        if (this.getById(product.getId()) == null) {
+            Helper.showMsg(product.getId() + " ID kayıtlı ürün bulunamadı!");
+            return false;
+        }
+
+        // Kategori null mı kontrol ediyoruz
+        if (product.getCategory() == null) {
+            Helper.showMsg("Ürün kategorisi tanımlı değil!");
+            return false;
+        }
+
+        // Güncelleme işlemi4
         return this.productDao.update(product);
     }
+
 
     public boolean delete(int id) {
         if (this.getById(id) == null) {
@@ -37,12 +54,13 @@ public class ProductController {
         return this.productDao.delete(id);
     }
 
-    public boolean save(Product product) throws SQLException {
+    public boolean save(Product product) {
 
-        product.setUniqcode(determineSymbol(product.getStock()));
+            product.setUniqcode(determineSymbol(product.getStock()));
+            return this.productDao.save(product);
 
-           return this.productDao.save(product);
     }
+
 
 
     public ArrayList<Product> filter(String name, String code, Item isStock) {
@@ -100,6 +118,7 @@ public class ProductController {
             return "\uD83D\uDE04";  // Çok gülümseyen surat (😄)
         }
     }
+
 
 
 }

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Database {
+ public class Database {
     private static Connection connection;
     // Singleton getInstance metodu
     public static Connection getInstance() {
@@ -75,4 +75,5 @@ public class Database {
     public static Connection getConnection() {
         return connection;
     }
+
 }

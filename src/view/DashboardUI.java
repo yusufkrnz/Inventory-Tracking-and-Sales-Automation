@@ -2,13 +2,11 @@ package view;
 
 import business.BasketController;
 import business.CustomerController;
+import business.MessageController;
 import business.ProductController;
 import core.Helper;
 import core.Item;
-import entity.Basket;
-import entity.Customer;
-import entity.Product;
-import entity.User;
+import entity.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,9 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-
 public class DashboardUI extends JFrame {
-    private JPanel container ;
+    private JPanel container;
     private JPanel pnl_top;
     private JLabel lbl_welcome;
     private JButton btn_logout;
@@ -37,7 +34,7 @@ public class DashboardUI extends JFrame {
     private JButton btn_customer_filter;
     private JLabel lbl_f_customer_name;
     private JLabel lbl_f_customer_type;
-    private JPanel pnl_product;
+    private JPanel pnl_manager_product;
     private JScrollPane scrl_product;
     private JTable tbl_product;
     private JPanel pnl_product_filter;
@@ -60,7 +57,7 @@ public class DashboardUI extends JFrame {
     private JLabel lbl_basket_price;
     private JLabel lbl_basket_count;
     private JTable tbl_basket;
-    private JPanel pnl_cutomer_basket;
+    private JPanel pnl_customer_basket;
     private JLabel lbl_customer_basket;
     private JLabel lbl_customer_basket_amount;
     private JTable table1;
@@ -75,8 +72,14 @@ public class DashboardUI extends JFrame {
     private JPanel pnl_cstmr_anlyzes;
     private JPanel pnl_smanager_analyzes;
     private JPanel pnl_User_message;
-    private JTable table2;
+    private JTable tbl_m_user;
     private JScrollPane scrl_user_message;
+    private JComboBox cmb_c_f_category;
+    private JLabel lbl_customer_categoryy;
+    private JPanel pnl_m_title;
+    private JPanel pnl_m_container;
+    private JLabel Kategori;
+    private DefaultTableModel tmdl_message = new DefaultTableModel(); // Mesaj tablosu için model
 
     private JPopupMenu popup_product = new JPopupMenu();
     private User user;
@@ -89,6 +92,9 @@ public class DashboardUI extends JFrame {
     private DefaultTableModel tmdl_basket = new DefaultTableModel();
 
     private JTextArea fld_user_m_area; // Mesajları göstermek için bir JTextArea
+
+    private MessageController messageController;
+
     public DashboardUI(User user) {
 
         if (user == null) {
@@ -101,7 +107,6 @@ public class DashboardUI extends JFrame {
         fld_user_m_area = new JTextArea();
 
 
-
         /**     ROLE göre görünürlük ayarlama          */
 
         this.user = user;
@@ -110,12 +115,11 @@ public class DashboardUI extends JFrame {
         this.basketController = new BasketController();
 
 
-
         // Add container to the JFrame
         this.add(container);
 
         this.setTitle("Stok ve Satış Takip Sistemi");
-        this.setSize(1000, 500);
+        this.setSize(1300, 750);
 
         // Ekranın ortalanması için gerekli işlem
         int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width) / 2;
@@ -139,7 +143,6 @@ public class DashboardUI extends JFrame {
         setVisible(true);
 
 
-
         //CUSTOMER TAB
 
         initializeCustomerTable();
@@ -159,6 +162,18 @@ public class DashboardUI extends JFrame {
         loadProductTable(null);
         loadProductPopupMenu();
         loadProductButtonEvent();
+        loadProductCategoryCombo();
+
+        //mesaj operasyonları
+        initializeMessageTable();
+        loadMessageTable();
+
+
+        this.cmb_c_f_category.addItem(new Item(1, " Smart Assistants "));
+        this.cmb_c_f_category.addItem(new Item(2, " Personel Care "));
+        this.cmb_c_f_category.addItem(new Item(3, " Smart Devices "));
+        this.cmb_c_f_category.addItem(new Item(4, " Kitchen Helpers "));
+
         this.cmb_f_product_stock.addItem(new Item(1, "Stokta var"));
         this.cmb_f_product_stock.addItem(new Item(2, "Stokta yok!"));
         this.cmb_f_product_stock.setSelectedItem(null);
@@ -190,17 +205,18 @@ public class DashboardUI extends JFrame {
         });
     }
 
-    // Mesaj eklemek için addMessage metodu
-    public void addMessage(String message) {
-        fld_user_m_area.append(message + "\n"); // Mesajı JTextArea'ya ekleyip alt satıra geç
+    private void loadMessageTable() {
     }
-    public static void main(String[] args) {
-        DashboardUI dashboard = new DashboardUI(new User());
 
-        // Test mesajları ekleme
-        dashboard.addMessage("Hoş geldiniz!");
-        dashboard.addMessage("Yeni bir mesaj var.");
+    private void loadProductCategoryCombo() {
     }
+
+    // Mesaj eklemek için addMessage metodu
+    private void loadMessageSend() {
+        // analyzes veri tabınından verileri tbl_m_user a çekmek istiyorum .
+
+    }
+
     private void loadBasketCustomerCombo() {
         ArrayList<Customer> customers = this.customerController.findAll();
         this.cmb_basket_customer.removeAllItems();
@@ -236,6 +252,39 @@ public class DashboardUI extends JFrame {
      * this.tbl_basket.setModel(clearModel);
      * ile model tabloya atanıyor.
      */
+    private void initializeMessageTable() {
+        String[] columnMessage = {"İşlem Zamanı", "Ürün ID", "Müşteri ismi", "Kategori", "Ürün İsmi", "Ürün Fiyatı", "Sepet Tutarı", "Stok Durumu", "Tedarikçi"};
+        DefaultTableModel tmdl_message = new DefaultTableModel(null, columnMessage);
+
+       tbl_m_user.setModel(tmdl_message);
+
+
+    }
+    private void loadMessageTable(ArrayList<Message> messages) {
+        if (messages == null) {
+            messages = this.messageController.findAll();
+        }
+
+        // Tabloyu temizle
+        tmdl_message.setRowCount(0);
+
+        for (Message message : messages) {
+            Object[] rowObject = {
+
+                    message.getId(),
+                    message.getUserName(),
+
+                    message.getName(),
+
+            };
+            tmdl_message.addRow(rowObject);
+        }
+
+        tbl_m_user.setModel(tmdl_message);
+        tbl_m_user.getTableHeader().setReorderingAllowed(false);
+        tbl_m_user.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_m_user.setEnabled(false);
+    }
 
     private void loadBasketTable() {
         Object[] columnBasket = {"ID", "Ürün Adı", "Ürün Kodu", "Fiyat", "Stok", "Durum"};
@@ -276,8 +325,37 @@ public class DashboardUI extends JFrame {
         this.tbl_basket.getColumnModel().getColumn(0).setMaxWidth(50);
         this.tbl_basket.setEnabled(false);
     }
+    private void loadCustomerTable(ArrayList<Customer> customers) {
+        if (customers == null) {
+            customers = this.customerController.findAll();
+        }
+        ArrayList<Customer> customers1 = this.customerController.findAllCombined();
 
 
+        // Tabloyu temizle
+        tmdl_customer.setRowCount(0);
+        for (Customer customer : customers) {
+            Object[] rowObject = {
+                    customer.getId(),
+                    customer.getName(),
+                    customer.getType(),
+                    customer.getPhone(),
+                    customer.getMail(),
+                    customer.getAddress()
+            };
+            tmdl_customer.addRow(rowObject);
+        }
+
+        tbl_customer.setModel(tmdl_customer);
+        tbl_customer.getTableHeader().setReorderingAllowed(false);
+        tbl_customer.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_customer.setEnabled(false);
+    }
+    private void initializeCustomerTable() {
+        String[] columnNames = {"ID", "Müşteri Adı", "Tipi", "Telefon", "E-Posta", "Adres"};
+        tmdl_customer = new DefaultTableModel(null, columnNames);
+        tbl_customer.setModel(tmdl_customer);
+    }
     private void loadProductButtonEvent() {
 
 
@@ -355,40 +433,6 @@ public class DashboardUI extends JFrame {
     }
 
 
-    private void initializeCustomerTable() {
-        String[] columnNames = {"ID", "Müşteri Adı", "Tipi", "Telefon", "E-Posta", "Adres"};
-        tmdl_customer = new DefaultTableModel(null, columnNames);
-        tbl_customer.setModel(tmdl_customer);
-    }
-
-
-    private void loadCustomerTable(ArrayList<Customer> customers) {
-        if (customers == null) {
-            customers = this.customerController.findAll();
-        }
-        ArrayList<Customer> customers1 = this.customerController.findAllCombined();
-
-
-        // Tabloyu temizle
-        tmdl_customer.setRowCount(0);
-        for (Customer customer : customers) {
-            Object[] rowObject = {
-                    customer.getId(),
-                    customer.getName(),
-                    customer.getType(),
-                    customer.getPhone(),
-                    customer.getMail(),
-                    customer.getAddress()
-            };
-            tmdl_customer.addRow(rowObject);
-        }
-
-        tbl_customer.setModel(tmdl_customer);
-        tbl_customer.getTableHeader().setReorderingAllowed(false);
-        tbl_customer.getColumnModel().getColumn(0).setMaxWidth(50);
-        tbl_customer.setEnabled(false);
-    }
-
 
     private void loadCustomerPopupMenu() {
         this.tbl_customer.addMouseListener(new MouseAdapter() {
@@ -416,7 +460,6 @@ public class DashboardUI extends JFrame {
         });
 
 
-
         this.popup_customer.add("Sil").addActionListener(e -> {
             int selectId = Integer.parseInt(tbl_customer.getValueAt(tbl_customer.getSelectedRow(), 0).toString());
             Helper.showMsg("done");
@@ -435,12 +478,11 @@ public class DashboardUI extends JFrame {
         tbl_customer.setComponentPopupMenu(popup_customer);
     }
 
-    /**           -----------Mesaj işlemleri  --------------------*/
+    /**
+     * -----------Mesaj işlemleri  --------------------
+     */
 
     // fld_user_m_area'ya metin eklemek için public bir metot
-    public void appendToUserMessageArea(String message) {
-        fld_user_m_area.append(message + "\n");
-    }
 
 
     private void loadProductPopupMenu() {
@@ -451,6 +493,30 @@ public class DashboardUI extends JFrame {
                 int selectedRow = tbl_product.rowAtPoint(e.getPoint());
                 tbl_product.setRowSelectionInterval(selectedRow, selectedRow);
             }
+        });
+
+
+        //MESAJLAŞMA OLAYI BAŞLANGIC
+
+
+        this.popup_product.add("Mesaj Gönder !").addActionListener(e -> {
+            // Seçilen ürünün ID'sini al
+            int selectId = Integer.parseInt(this.tbl_product.getValueAt(this.tbl_product.getSelectedRow(), 0).toString());
+
+            // Ürün bilgilerini al
+            Product messageProduct = this.productController.getById(selectId);
+
+            // Mesaj için yeni bir Message nesnesi oluştur
+            Message message = new Message();
+            message.setId(selectId); // ID'yi ayarla
+            message.setCode(messageProduct.getCode());
+            message.setName(messageProduct.getName());
+
+            // Mesaj UI'sını oluştur
+            MessageUI messageUI = new MessageUI(message);
+
+            // Mesaj UI'sında mevcut bilgileri gösterebilmek için gerekli ek işlemleri yapın
+            messageUI.fld_m_title.setText("Ürün Bilgisi: " + messageProduct.getName());
         });
 
 
@@ -511,7 +577,7 @@ public class DashboardUI extends JFrame {
     private void loadProductTable(ArrayList<Product> products) {
 
 
-        Object[] columnProduct = {"ID", "Ürün Adı", "Ürün Kodu", "Fiyat", "Stok", "Durum"};
+        Object[] columnProduct = {"ID", "Ürün Adı", "Ürün Kodu", "Fiyat", "Kategori", "Stok", "Satıcı", "Durum"};
 
         if (products == null) {
             products = this.productController.findAll();
@@ -528,7 +594,9 @@ public class DashboardUI extends JFrame {
                     product.getName(),
                     product.getCode(),
                     product.getPrice(),
+                    product.getCategory(),
                     product.getStock(),
+                    product.getSupplier(),
                     product.getUniqcode()
 
             };
@@ -558,7 +626,6 @@ public class DashboardUI extends JFrame {
     public void showUserPanel() {
         System.out.println("Kullanıcı Paneli Açıldı");
     }
-
 
 
 }

@@ -46,6 +46,19 @@ public class CartDao {
         Cart cart = new Cart();
 
         // customer_id tablosunda sütun adlarının `customer` tablosundakilerden farklı olabileceğini göz önünde bulundurun
+
+        /**
+
+          ResultSet Nesnesinden Verileri Çekme:
+
+         cart.setId(rs.getInt("id"));
+         ResultSet nesnesinden
+         id sütunundaki değeri alır
+         ve Cart nesnesinin
+         id özelliğine atar.
+
+         */
+
         cart.setId(rs.getInt("id")); // ID sütunu her iki tabloda da mevcut olmalı
         cart.setPrice(rs.getInt("price"));
         cart.setCustomerId(rs.getInt("customer_id"));

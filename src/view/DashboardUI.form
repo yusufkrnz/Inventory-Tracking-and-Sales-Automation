@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="container" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="976" height="400"/>
+      <xy x="20" y="20" width="1136" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -34,9 +34,7 @@
           </component>
           <tabbedpane id="97ec1" binding="tab_menu">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="200" height="200"/>
-              </grid>
+              <grid row="1" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -133,7 +131,7 @@
                   </grid>
                 </children>
               </grid>
-              <grid id="660db" binding="pnl_product" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="660db" binding="pnl_manager_product" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <tabbedpane title="Ürünler"/>
@@ -154,8 +152,8 @@
                       </component>
                     </children>
                   </scrollpane>
-                  <grid id="124d1" binding="pnl_product_filter" layout-manager="GridLayoutManager" row-count="2" column-count="6" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="5" left="5" bottom="5" right="5"/>
+                  <grid id="124d1" binding="pnl_product_filter" layout-manager="GridLayoutManager" row-count="2" column-count="7" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="2" left="2" bottom="2" right="2"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -188,13 +186,13 @@
                       </component>
                       <component id="6dca6" class="javax.swing.JComboBox" binding="cmb_f_product_stock">
                         <constraints>
-                          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                       </component>
                       <component id="6cf43" class="javax.swing.JButton" binding="btn_product_filter">
                         <constraints>
-                          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Arama Yap"/>
@@ -202,7 +200,7 @@
                       </component>
                       <component id="5f338" class="javax.swing.JButton" binding="btn_product_filter_reset">
                         <constraints>
-                          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Temizle"/>
@@ -210,7 +208,7 @@
                       </component>
                       <component id="fc9b" class="javax.swing.JButton" binding="btn_product_new">
                         <constraints>
-                          <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Yeni Ekle"/>
@@ -226,10 +224,24 @@
                       </component>
                       <component id="79bbd" class="javax.swing.JLabel" binding="lbl_f_product_stock">
                         <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Stok Durumu"/>
+                        </properties>
+                      </component>
+                      <component id="8768b" class="javax.swing.JComboBox" binding="cmb_c_f_category">
+                        <constraints>
+                          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="a4519" class="javax.swing.JLabel" binding="lbl_customer_categoryy">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Kategori"/>
                         </properties>
                       </component>
                     </children>
@@ -343,7 +355,7 @@
                   </scrollpane>
                 </children>
               </grid>
-              <grid id="11299" binding="pnl_cutomer_basket" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="11299" binding="pnl_customer_basket" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="5" left="5" bottom="5" right="5"/>
                 <constraints>
                   <tabbedpane title="Sepet"/>
@@ -516,7 +528,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="bb7c0" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="bb7c0" binding="pnl_m_container" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -524,7 +536,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <grid id="786fd" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="786fd" binding="pnl_m_title" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -535,25 +547,17 @@
                       </grid>
                       <scrollpane id="ed2e1" binding="scrl_user_message">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="2de30" class="javax.swing.JTable" binding="table2" default-binding="true">
+                          <component id="2de30" class="javax.swing.JTable" binding="tbl_m_user">
                             <constraints/>
                             <properties/>
                           </component>
                         </children>
                       </scrollpane>
-                      <component id="b7653" class="javax.swing.JTextArea" binding="fld_user_m_area">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="50"/>
-                          </grid>
-                        </constraints>
-                        <properties/>
-                      </component>
                     </children>
                   </grid>
                 </children>

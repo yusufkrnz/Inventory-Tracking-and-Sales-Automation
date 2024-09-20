@@ -1,3 +1,4 @@
+import business.MessageController;
 import business.ProductController;
 import business.UsersController;
 import core.Database;
@@ -14,7 +15,7 @@ public class App {
 
         Helper.setTheme();//tema aktif ettik
 
-        LoginUI loginUI=new LoginUI();
+       // LoginUI loginUI=new LoginUI();
 
                 /** HATA YERİ*/
 
@@ -24,6 +25,7 @@ public class App {
         DashboardUI dashboardUI = new DashboardUI(user);
         ProductController productController=new ProductController();
         productController.updateProductSymbols();
+        MessageController messageController = new MessageController();
 
         // Ürünleri görüntüleme veya başka işlemler yapma
 
